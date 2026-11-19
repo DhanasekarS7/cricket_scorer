@@ -38,7 +38,7 @@ function makeText(tag, className, text) {
   return node;
 }
 
-function showNoFixtures(message, registrationOpen = false) {
+function showNoFixtures(message) {
   document.getElementById("matchHeading").textContent = "Upcoming matches";
   document.getElementById("matchState").textContent = message || "Fixtures appear after teams are confirmed";
   matchStatusPill.classList.remove("live");
@@ -54,7 +54,7 @@ function showNoFixtures(message, registrationOpen = false) {
   const metric = document.createElement("div");
   metric.className = "match-metric";
   metric.append(makeText("span", "", "TOURNAMENT"));
-  metric.append(makeText("b", "", registrationOpen ? "Registration open" : "Awaiting organizer update"));
+  metric.append(makeText("b", "", "Registration in progress"));
   body.append(crest, copy, metric);
 }
 
@@ -131,7 +131,7 @@ async function loadTournament() {
   const upcoming = matches || [];
   const match = upcoming.find((item) => item.match_status === "live") || upcoming[0];
   if (match) showFixture(match);
-  else showNoFixtures(tournament.registration_open ? "Waiting for the first fixture" : "Fixtures appear after teams are confirmed", tournament.registration_open);
+  else showNoFixtures(tournament.registration_open ? "Waiting for the first fixture" : "Fixtures appear after teams are confirmed");
   statusText.textContent = "Connected to tournament data";
 
   if (!matchChannel) {
