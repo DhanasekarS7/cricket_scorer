@@ -75,13 +75,17 @@ function updateRegistrationForm() {
   intro.textContent = open ? "Registration is open. Send your team details for organizer review." : "Registration details are being finalized. The organizer will publish the sign-up steps here when the list opens.";
   document.getElementById("registrationStatus").lastChild.textContent = open ? " Registration open" : " Awaiting organizer update";
 }
-async function requestOrganizerSignIn() {
+function requestOrganizerSignIn() {
   if (!supabase) return showToast("The score service is not connected yet.");
-  const { data: { user } } = await supabase.auth.getUser();
-  if (user) { await supabase.auth.signOut(); showToast("You have signed out."); return; }
-  const email = window.prompt("Enter your approved organizer email address."); if (!email) return;
-  const { error } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { emailRedirectTo: window.location.href } });
-  showToast(error ? "Sign-in could not start: " + error.message : "Check your email for the secure sign-in link.");
+  if (currentUser) {
+    supabase.auth.signOut().then(({ error }) => showToast(error ? "Could not sign out: " + error.message : "You have signed out."));
+    return;
+  }
+  const dialog = document.getElementById("signInDialog");
+  document.getElementById("signInMessage").textContent = "";
+  document.getElementById("signInEmail").value = "";
+  dialog.showModal();
+  document.getElementById("signInEmail").focus();
 }
 async function syncRole(session) {
   currentUser = session?.user || null; currentRole = null;
@@ -304,6 +308,17 @@ document.getElementById("finishMatch").addEventListener("click", async () => {
   if (!error) { document.getElementById("scoringWorkspace").classList.add("hidden"); loadTournament(); loadStaff(); }
 });
 document.getElementById("signInButton").addEventListener("click", requestOrganizerSignIn);
+document.getElementById("closeSignIn").addEventListener("click", () => document.getElementById("signInDialog").close());
+document.getElementById("signInForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const button = document.getElementById("sendSignInLink"), message = document.getElementById("signInMessage");
+  const email = document.getElementById("signInEmail").value.trim();
+  button.disabled = true; message.textContent = "Sign-in link anuppuren…";
+  const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + window.location.pathname } });
+  button.disabled = false;
+  if (error) { message.textContent = error.message; return; }
+  message.textContent = "Link anuppiyachu. Inbox/spam check pannunga.";
+});
 document.getElementById("adminButton").addEventListener("click", () => {
   if (currentUser) document.getElementById("staffWorkspace").scrollIntoView({ behavior: "smooth", block: "start" });
   else requestOrganizerSignIn();

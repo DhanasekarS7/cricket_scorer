@@ -137,6 +137,17 @@
     </main>
     <footer><a class="brand footer-brand" href="#home"><span class="brand-icon">P<span>+</span></span><span class="brand-copy">POWERPLAY <b>ARENA</b></span></a><span>BUILT FOR THE GROUP. READY FOR THE NEXT BALL.</span><span id="connectionStatus">Score service setup pending</span></footer>
   </div>
+  <dialog class="auth-dialog" id="signInDialog" aria-labelledby="signInTitle">
+    <form id="signInForm">
+      <button class="dialog-close" id="closeSignIn" type="button" aria-label="Close sign in">×</button>
+      <div class="eyebrow muted">STAFF ACCESS</div>
+      <h2 id="signInTitle">Organizer sign in</h2>
+      <p>Unga approved staff email-ku one-time sign-in link anuppuvom.</p>
+      <label>Email address<input id="signInEmail" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+      <button class="button button-lime" id="sendSignInLink" type="submit">Send sign-in link <span>→</span></button>
+      <small id="signInMessage" role="status" aria-live="polite"></small>
+    </form>
+  </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
   <script src="supabase-config.js"></script>
