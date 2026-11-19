@@ -324,6 +324,7 @@ document.getElementById("signInForm").addEventListener("submit", async (event) =
     message.textContent = error?.message || "Sign-in request pogala. Page-a refresh pannitu marubadi try pannunga.";
   } finally { button.disabled = false; }
 });
+window.POWERPLAY_AUTH_HANDLER_READY = true;
 document.getElementById("adminButton").addEventListener("click", () => {
   if (currentUser) document.getElementById("staffWorkspace").scrollIntoView({ behavior: "smooth", block: "start" });
   else requestOrganizerSignIn();

@@ -161,6 +161,27 @@
       };
       document.getElementById("signInButton")?.addEventListener("click", openSignInForm);
       document.getElementById("adminButton")?.addEventListener("click", openSignInForm);
+      if (!window.POWERPLAY_AUTH_HANDLER_READY) {
+        document.getElementById("signInForm")?.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const button = document.getElementById("sendSignInLink");
+          const message = document.getElementById("signInMessage");
+          const email = document.getElementById("signInEmail").value.trim();
+          const url = window.POWERPLAY_SUPABASE_URL;
+          const key = window.POWERPLAY_SUPABASE_KEY;
+          if (!window.supabase?.createClient) { message.textContent = "Supabase library load aagala. Page-a refresh pannunga."; return; }
+          if (!url || !key) { message.textContent = "Supabase config load aagala. Page owner-kitta sollunga."; return; }
+          button.disabled = true;
+          message.textContent = "Sign-in link anuppuren…";
+          try {
+            const client = window.supabase.createClient(url, key);
+            const { error } = await client.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + window.location.pathname } });
+            message.textContent = error ? error.message : "Link anuppiyachu. Inbox/spam check pannunga.";
+          } catch (error) {
+            message.textContent = error?.message || "Sign-in request pogala. Marubadi try pannunga.";
+          } finally { button.disabled = false; }
+        });
+      }
     })();
   </script>
 </body>
