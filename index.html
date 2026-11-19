@@ -51,7 +51,7 @@
           <span class="section-note" id="matchState">Fixtures appear after teams are confirmed</span>
         </div>
         <div class="match-card empty-match" id="matchCard">
-          <div class="match-card-top"><span class="status-pill"><i></i> FIXTURES PENDING</span><span class="match-number">POWERPLAY ARENA · SEASON 01</span></div>
+          <div class="match-card-top"><span class="status-pill" id="matchStatusPill"><i></i> FIXTURES PENDING</span><span class="match-number">POWERPLAY ARENA · SEASON 01</span></div>
           <div class="empty-match-body">
             <div class="empty-crest">✦</div>
             <div><h3>Teams are getting ready</h3><p>Upcoming fixtures will appear here when registrations are confirmed and the organizer publishes the schedule.</p></div>
@@ -71,9 +71,50 @@
           <div class="eyebrow muted">TEAM REGISTRATION</div>
           <div class="registration-mark">↗</div>
           <h2>Teams, take<br>your place.</h2>
-          <p>Registration details are being finalized. The organizer will publish the sign-up steps here when the list opens.</p>
-          <span class="registration-status"><i></i> Awaiting organizer update</span>
+          <p id="registrationIntro">Registration details are being finalized. The organizer will publish the sign-up steps here when the list opens.</p>
+          <span class="registration-status" id="registrationStatus"><i></i> Awaiting organizer update</span>
+          <form id="registrationForm" class="registration-form hidden">
+            <label>Team name<input name="team_name" required maxlength="80"></label>
+            <label>Captain name<input name="captain_name" required maxlength="80"></label>
+            <label>Email or phone<input name="contact" required maxlength="120"></label>
+            <label>Notes (optional)<textarea name="notes" maxlength="500" rows="2"></textarea></label>
+            <button class="button button-lime" type="submit">Submit team <span>→</span></button>
+          </form>
         </article>
+      </section>
+
+      <section class="staff-section hidden" id="staffWorkspace">
+        <div class="section-title"><div><div class="eyebrow muted">PRIVATE STAFF AREA</div><h2>Organizer workspace</h2></div><span class="section-note" id="staffRole"></span></div>
+        <div class="staff-grid">
+          <article class="info-panel" id="registrationAdmin">
+            <div class="panel-heading"><div><div class="eyebrow muted">TEAM APPLICATIONS</div><h2>Registration</h2></div><button class="button button-lime" id="registrationToggle">Open registration</button></div>
+            <div id="applicationsList" class="staff-list"><small>Sign in to review applications.</small></div>
+          </article>
+          <article class="info-panel" id="fixtureAdmin">
+            <div class="eyebrow muted">SCHEDULE</div><h2 class="staff-heading">Create a fixture</h2>
+            <form id="fixtureForm" class="staff-form">
+              <label>Match title<input name="title" maxlength="100" placeholder="Match 1"></label>
+              <label>Team A<select name="team_a" required></select></label><label>Team B<select name="team_b" required></select></label>
+              <label>Date and time<input name="scheduled_at" type="datetime-local"></label><label>Venue<input name="venue" maxlength="120"></label>
+              <button class="button button-lime" type="submit">Save fixture <span>→</span></button>
+            </form>
+          <div class="eyebrow muted staff-subhead">TOURNAMENT SETUP</div>
+          <form id="settingsForm" class="settings-form">
+            <div class="settings-basics"><label>Players per team<input name="playersPerTeam" type="number" min="2" max="20" required></label><label>Overs per innings<input name="oversPerInnings" id="oversPerInnings" type="number" min="1" max="20" required></label><label>Wickets per innings<input name="wicketsPerInnings" type="number" min="1" max="10" required></label><label>Innings per match<input name="inningsPerMatch" type="number" min="1" max="4" required></label></div>
+            <div class="settings-extras"><label><input name="wideEnabled" type="checkbox"> Allow wides</label><label>Wide penalty<input name="widePenalty" type="number" min="0" max="10"></label><label><input name="noBallEnabled" type="checkbox"> Allow no-balls</label><label>No-ball penalty<input name="noBallPenalty" type="number" min="0" max="10"></label></div>
+            <div id="overRulesEditor" class="over-rules-editor"></div>
+            <button class="button button-lime" type="submit">Save tournament setup <span>→</span></button>
+          </form>
+          <div id="roleManagement" class="role-management hidden">
+            <div class="eyebrow muted staff-subhead">STAFF ACCESS</div>
+            <small class="settings-note">Staff members need to request a sign-in link once before you can approve their email.</small>
+            <form id="staffForm" class="staff-form"><label>Staff email<input name="email" type="email" required placeholder="name@example.com"></label><label>Access<select name="role"><option value="tournament_admin">Organizer</option><option value="scorer">Scorer</option></select></label><button class="button button-lime" type="submit">Approve staff <span>→</span></button></form>
+            <div id="staffRoster" class="staff-list"></div>
+          </div>
+            <div class="eyebrow muted staff-subhead">MATCH CONTROL</div><div id="staffMatches" class="staff-list"></div>
+          </article>
+        </div>
+        <article class="info-panel scoring-panel hidden" id="scoringWorkspace"><div class="panel-heading"><div><div class="eyebrow muted">LIVE SCORING</div><h2 id="scoringTitle">Scorer console</h2></div><button class="button button-dark" id="undoDelivery">Undo last ball</button></div><div id="scoringSummary" class="scoring-summary"></div><div id="scoringChoices" class="scoring-choices"></div><div class="scoring-extras"><button class="button button-dark" data-extra="wide">Wide +1</button><button class="button button-dark" data-extra="noBall">No ball +1</button><button class="button button-dark" data-extra="wicket">Wicket</button><button class="button button-dark" id="nextInnings">Next innings</button><button class="button button-dark" id="finishMatch">Finish match</button></div></article>
       </section>
 
       <section class="format-section" id="format">

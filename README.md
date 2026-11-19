@@ -14,6 +14,14 @@ This is the initial reviewable page for the Telegram cricket tournament. It incl
 - The Supabase tournament schema is installed. It includes tournaments, approved teams, private team-registration details, match scheduling fields, and row-level security.
 - Registration is closed by default. Team contact details are visible only to approved tournament staff.
 - The home page reads tournament and match data from Supabase and subscribes to changes in the existing live match table.
-- The scorer workspace, registration form, standings calculations, settings editor, and role-management screen are still to be built.
+- Public team registration can be opened or closed by organizers. Submissions remain private until staff review them.
+- Owners and organizers can approve or reject teams, create fixtures, and start matches. The owner can approve organizers and scorers after they sign in once.
+- Approved scorers can record batter/bowler picks, extras, wickets, innings changes, undo actions, and finish a match. Score updates are saved as auditable events and published live.
+- The organizer setup screen can edit team size, innings length, wicket limit, extras, and the picks and scoring rules for each over.
+- Standings and final-result calculations are not implemented yet. Registration is still closed until the organizer opens it.
+
+## Publishing changes
+
+The source is in the `cricket_scorer` repository. After local changes are committed, use GitHub Desktop's **Push origin** button to publish them to GitHub. Cloudflare Pages can then build the site from the repository's main branch.
 
 Never put a database password, Supabase secret key, or service-role key in website files. A browser publishable key may be used only with correct database policies.
