@@ -152,5 +152,16 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
   <script src="supabase-config.js"></script>
   <script src="app.js"></script>
+  <script>
+    (() => {
+      const openSignInForm = () => {
+        const button = document.getElementById("signInButton");
+        const dialog = document.getElementById("signInDialog");
+        if (button?.textContent.includes("Organizer sign in") && dialog && !dialog.open) dialog.showModal();
+      };
+      document.getElementById("signInButton")?.addEventListener("click", openSignInForm);
+      document.getElementById("adminButton")?.addEventListener("click", openSignInForm);
+    })();
+  </script>
 </body>
 </html>
