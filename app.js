@@ -76,15 +76,16 @@ function updateRegistrationForm() {
   document.getElementById("registrationStatus").lastChild.textContent = open ? " Registration open" : " Awaiting organizer update";
 }
 function requestOrganizerSignIn() {
-  if (!supabase) return showToast("The score service is not connected yet.");
-  if (currentUser) {
+  const dialog = document.getElementById("signInDialog");
+  if (!dialog) return showToast("Sign-in form could not load. Refresh the page and try again.");
+  if (currentUser && supabase) {
     supabase.auth.signOut().then(({ error }) => showToast(error ? "Could not sign out: " + error.message : "You have signed out."));
     return;
   }
-  const dialog = document.getElementById("signInDialog");
-  document.getElementById("signInMessage").textContent = "";
+  const message = document.getElementById("signInMessage");
+  message.textContent = supabase ? "" : "Sign-in service connect aagala. Page-a refresh pannitu marubadi try pannunga.";
   document.getElementById("signInEmail").value = "";
-  dialog.showModal();
+  if (!dialog.open) dialog.showModal();
   document.getElementById("signInEmail").focus();
 }
 async function syncRole(session) {
@@ -313,11 +314,15 @@ document.getElementById("signInForm").addEventListener("submit", async (event) =
   event.preventDefault();
   const button = document.getElementById("sendSignInLink"), message = document.getElementById("signInMessage");
   const email = document.getElementById("signInEmail").value.trim();
+  if (!supabase) { message.textContent = "Supabase connect aagala. Please refresh the page and try again."; return; }
   button.disabled = true; message.textContent = "Sign-in link anuppuren…";
-  const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + window.location.pathname } });
-  button.disabled = false;
-  if (error) { message.textContent = error.message; return; }
-  message.textContent = "Link anuppiyachu. Inbox/spam check pannunga.";
+  try {
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + window.location.pathname } });
+    if (error) { message.textContent = error.message; return; }
+    message.textContent = "Link anuppiyachu. Inbox/spam check pannunga.";
+  } catch (error) {
+    message.textContent = error?.message || "Sign-in request pogala. Page-a refresh pannitu marubadi try pannunga.";
+  } finally { button.disabled = false; }
 });
 document.getElementById("adminButton").addEventListener("click", () => {
   if (currentUser) document.getElementById("staffWorkspace").scrollIntoView({ behavior: "smooth", block: "start" });
