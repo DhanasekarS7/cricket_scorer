@@ -90,6 +90,8 @@ function requestOrganizerSignIn() {
 }
 async function syncRole(session) {
   currentUser = session?.user || null; currentRole = null;
+  const signInDialog = document.getElementById("signInDialog");
+  if (currentUser && signInDialog?.open) signInDialog.close();
   const workspace = document.getElementById("staffWorkspace");
   document.getElementById("signInButton").textContent = currentUser?.email ? "Sign out · " + currentUser.email : "Organizer sign in";
   if (!currentUser) { workspace.classList.add("hidden"); return; }
@@ -105,6 +107,7 @@ async function syncRole(session) {
   document.getElementById("registrationAdmin").classList.toggle("hidden", !organizer);
   document.getElementById("fixtureAdmin").classList.toggle("hidden", !organizer);
   await loadStaff();
+  workspace.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 async function loadStaff() {
   if (!currentRole || !activeTournament) return;

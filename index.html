@@ -159,9 +159,26 @@
         const dialog = document.getElementById("signInDialog");
         if (button?.textContent.includes("Organizer sign in") && dialog && !dialog.open) dialog.showModal();
       };
+      const signInDialog = document.getElementById("signInDialog");
+      document.getElementById("closeSignIn")?.addEventListener("click", () => signInDialog?.close());
+      signInDialog?.addEventListener("click", (event) => {
+        if (event.target === signInDialog) signInDialog.close();
+      });
       document.getElementById("signInButton")?.addEventListener("click", openSignInForm);
       document.getElementById("adminButton")?.addEventListener("click", openSignInForm);
       if (!window.POWERPLAY_AUTH_HANDLER_READY) {
+        let fallbackClient;
+        if (window.supabase?.createClient && window.POWERPLAY_SUPABASE_URL && window.POWERPLAY_SUPABASE_KEY) {
+          fallbackClient = window.supabase.createClient(window.POWERPLAY_SUPABASE_URL, window.POWERPLAY_SUPABASE_KEY);
+          const handleSession = (session) => {
+            if (!session?.user) return;
+            if (signInDialog?.open) signInDialog.close();
+            if (typeof window.syncRole === "function") window.syncRole(session);
+            else document.getElementById("signInMessage").textContent = "Email verified. Please refresh the page to open staff access.";
+          };
+          fallbackClient.auth.onAuthStateChange((_event, session) => handleSession(session));
+          fallbackClient.auth.getSession().then(({ data }) => handleSession(data.session));
+        }
         document.getElementById("signInForm")?.addEventListener("submit", async (event) => {
           event.preventDefault();
           const button = document.getElementById("sendSignInLink");
@@ -174,7 +191,7 @@
           button.disabled = true;
           message.textContent = "Sign-in link anuppuren…";
           try {
-            const client = window.supabase.createClient(url, key);
+            const client = fallbackClient || window.supabase.createClient(url, key);
             const { error } = await client.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin + window.location.pathname } });
             message.textContent = error ? error.message : "Link anuppiyachu. Inbox/spam check pannunga.";
           } catch (error) {
