@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1110">
+  <meta name="description" content="The live home for your Telegram cricket tournament.">
+  <title>Powerplay Arena — Tournament central</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Powerplay Arena home">
+        <span class="brand-icon">P<span>+</span></span>
+        <span class="brand-copy">POWERPLAY <b>ARENA</b></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="active" href="#home">Home</a>
+        <a href="#matches">Matches</a>
+        <a href="#standings">Standings</a>
+        <a href="#teams">Teams</a>
+        <a href="#format">Format</a>
+      </nav>
+      <button class="sign-in" id="signInButton">Organizer sign in <span>↗</span></button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><i></i> TELEGRAM CRICKET · TOURNAMENT 2026</div>
+          <h1>One group.<br><em>All the action.</em></h1>
+          <p>Follow every fixture, every run, every turning point. Your tournament home is ready for match day.</p>
+          <a class="button button-lime" href="#matches">View match centre <span>→</span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="cricket-ball"><span>✦</span></div>
+          <div class="hero-stamp"><small>PLAY</small><b>WITH<br>HEART</b><span>EST. 2026</span></div>
+          <span class="spark spark-a">✳</span><span class="spark spark-b">✦</span>
+        </div>
+      </section>
+
+      <section class="match-section" id="matches">
+        <div class="section-title">
+          <div><div class="eyebrow muted">MATCH CENTRE</div><h2 id="matchHeading">Upcoming matches</h2></div>
+          <span class="section-note" id="matchState">Fixtures appear after teams are confirmed</span>
+        </div>
+        <div class="match-card empty-match" id="matchCard">
+          <div class="match-card-top"><span class="status-pill"><i></i> FIXTURES PENDING</span><span class="match-number">POWERPLAY ARENA · SEASON 01</span></div>
+          <div class="empty-match-body">
+            <div class="empty-crest">✦</div>
+            <div><h3>Teams are getting ready</h3><p>Upcoming fixtures will appear here when registrations are confirmed and the organizer publishes the schedule.</p></div>
+            <div class="match-metric"><span>TOURNAMENT</span><b>Awaiting organizer update</b></div>
+          </div>
+          <div class="match-card-bottom"><span>Live scoring will appear here during a match.</span><a href="#format">Explore the format <b>↗</b></a></div>
+        </div>
+      </section>
+
+      <section class="info-grid" id="standings">
+        <article class="info-panel standings-panel">
+          <div class="panel-heading"><div><div class="eyebrow muted">THE TABLE</div><h2>Standings</h2></div><span class="round-label">SEASON 01</span></div>
+          <div class="table-head"><span>TEAM</span><span>PLAYED</span><span>WON</span><span>PTS</span></div>
+          <div class="table-empty"><span class="empty-dash">—</span><div><b>Table starts with the first result</b><small>Approved teams and standings will be published here.</small></div></div>
+        </article>
+        <article class="info-panel registration-panel" id="teams">
+          <div class="eyebrow muted">TEAM REGISTRATION</div>
+          <div class="registration-mark">↗</div>
+          <h2>Teams, take<br>your place.</h2>
+          <p>Registration details are being finalized. The organizer will publish the sign-up steps here when the list opens.</p>
+          <span class="registration-status"><i></i> Awaiting organizer update</span>
+        </article>
+      </section>
+
+      <section class="format-section" id="format">
+        <div class="section-title">
+          <div><div class="eyebrow muted">THE SIGNATURE CHALLENGE</div><h2>Four overs. Four twists.</h2></div>
+          <span class="section-note">Tournament rules can be customized by the organizer</span>
+        </div>
+        <div class="over-grid">
+          <article class="over-card"><span class="over-index">01</span><div class="over-tone cyan"></div><h3>Powerplay</h3><p>Choose 2, 3, 4 or 6. Match the bowler and it’s a wicket.</p><div class="number-set"><b>2</b><b>3</b><b>4</b><b>6</b></div></article>
+          <article class="over-card"><span class="over-index">02</span><div class="over-tone lime"></div><h3>Double Trouble</h3><p>Different picks double the batter’s runs. First wicket dismisses the pair.</p><div class="number-set"><b>1</b><b>2</b><b>3</b><b>4</b><b>6</b><small>5 excluded</small></div></article>
+          <article class="over-card"><span class="over-index">03</span><div class="over-tone violet"></div><h3>Bowler’s Challenge</h3><p>Choose 3, 4 or 6. A matching pick sends the batter back.</p><div class="number-set"><b>3</b><b>4</b><b>6</b></div></article>
+          <article class="over-card"><span class="over-index">04</span><div class="over-tone orange"></div><h3>Super Finish</h3><p>Choose 0–6. Extras and tournament-specific rules can be switched on.</p><div class="number-set"><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b></div></article>
+        </div>
+      </section>
+
+      <section class="admin-banner">
+        <div><div class="eyebrow">FOR THE PEOPLE RUNNING THE GAME</div><h2>One clear place to<br>set up the tournament.</h2><p>Approved organizers manage teams, fixtures, custom rules, roles and live score updates.</p></div>
+        <button class="button button-dark" id="adminButton">Open organizer sign in <span>→</span></button>
+      </section>
+    </main>
+    <footer><a class="brand footer-brand" href="#home"><span class="brand-icon">P<span>+</span></span><span class="brand-copy">POWERPLAY <b>ARENA</b></span></a><span>BUILT FOR THE GROUP. READY FOR THE NEXT BALL.</span><span id="connectionStatus">Score service setup pending</span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
